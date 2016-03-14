@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+  <meta <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript">
+
+    //Global Variables
+    var painted;
+    var content;
+    var winningCombinations;
+    var turn = 0;
+    var theCanvas;
+    var c;
+    var cxt;
+    var squaresFilled = 0;
+    var w;
+    var y;
+    var x = "x"
+    var o = "o"
+    var count = 0;
+    var o_win = 0;
+    var x_win = 0;
+
+    //Instanciate Arrays
+    window.onload=function(){
+
+      painted = new Array();
+      content = new Array();
+      winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+      for(var l = 0; l <= 8; l++){
+      painted[l] = false;
+      content[l]='';
+      }
+    }
+
+    //Game methods
+    function canvasClicked(canvasNumber){
+      theCanvas = "canvas"+canvasNumber;
+      c = document.getElementById(theCanvas);
+      cxt = c.getContext("2d");
+
+      if(painted[canvasNumber-1] ==false){
+        if(turn%2==0){
+          cxt.beginPath();
+          cxt.moveTo(20,20);
+          cxt.lineTo(80,80);
+          cxt.moveTo(80,20);
+          cxt.lineTo(20,80);
+          cxt.stroke();
+          cxt.closePath();
+          content[canvasNumber-1] = 'X';
+        }
+
+        else{
+          cxt.beginPath();
+          cxt.arc(50,50,40,20,Math.PI*2,true);
+          cxt.stroke();
+          cxt.closePath();
+          content[canvasNumber-1] = 'O';
+        }
+
+        turn++;
+        painted[canvasNumber-1] = true;
+        squaresFilled++;
+        checkForWinners(content[canvasNumber-1]);
+
+        if(squaresFilled==9){
+          alert("THE GAME IS OVER!");
+          location.reload(true);
+        }
+
+      }
+      else{
+        alert("ALREADY OCCUPIED!");
+      }
+
+    }
+
+    function checkForWinners(symbol){
+
+      for(var a = 0; a < winningCombinations.length; a++){
+      if(content[winningCombinations[a][0]]==symbol&&content[winningCombinations[a][1]]== symbol&&content[winningCombinations[a][2]]==symbol){
+        alert(symbol+ " WON!");
+        playAgain();
+      }
+      }
+
+    }
+
+    function playAgain(){
+      y=confirm("PLAY AGAIN?");
+      if(y==true){
+        alert("O.K. One more time");
+        location.reload(true);
+      }
+      else{
+        alert("SO LONG,SUCKER!");
+    }
+
+    }
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <div id ="tic-tac-toe">
+      <h1>TIC - TAC - TOE</h1>
+        <div class="span3">
+          <div class="input-prepend input-append">
+          <span class="add-on win_text">O won</span>
+          <strong id="o_win" class="win_times add-on">0</strong>
+          <span class="add-on">time(s)</span>
+        </div>
+        <div class="input-prepend input-append">
+          <span class="add-on win_text">X won</span>
+          <strong id="x_win" class="win_times add-on">0</strong>
+          <span class="add-on">times(s)</span>
+         </div>
+
+      </div>
+
+      <canvas id = "canvas1"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(1)"></canvas>
+      <canvas id = "canvas2"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(2)"></canvas>
+      <canvas id = "canvas3"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(3)"></canvas><br/>
+      <canvas id = "canvas4"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(4)"></canvas>
+      <canvas id = "canvas5"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(5)"></canvas>
+      <canvas id = "canvas6"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(6)"></canvas><br/>
+      <canvas id = "canvas7"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(7)"></canvas>
+      <canvas id = "canvas8"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(8)"></canvas>
+      <canvas id = "canvas9"  width="100" height="100" style="border:2px solid black" onclick="canvasClicked(9)"></canvas>
+
+      <div class="end"><h3></h3><a href=" ">Restart</a></div></div>
+
+  </body>
+</html>
+
